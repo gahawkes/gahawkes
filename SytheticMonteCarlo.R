@@ -6,7 +6,7 @@ library(alabama)
 mu<-array(c(0.12,0.12),dim=c(2,1));
 alpha<-array(c(0.02,0.07,0.07,0),dim=c(2,2));
 beta<-array(c(0.11,0.11,0.11,0.11),dim=c(2,2));
-T<-600;
+T<-2000;
 scale<-0.01;
 
 #Simulate the 500 seonds sythetic price movement y
@@ -18,7 +18,7 @@ price=PriceSimulation(x);
 n=dim(price)[1]
 price=price[-(n-2):-n,]
 
-#plot(price[,2]~price[,1],type='s',xlab='seconds',ylab='Price');
+plot(price[,2]~price[,1],type='s',xlab='seconds',ylab='Price');
 
 #Divide the sythetic price into training set and testing set
 #Traing set: 300 seonds

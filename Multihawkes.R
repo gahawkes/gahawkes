@@ -11,8 +11,6 @@ LambdaValue<-function(time,history,sub_process,mu,alpha,beta)
     {
         #coerce as matrix
         temp<-sub_process[[m]][sub_process[[m]]<=time,];
-        #print(temp)
-        #print(length(temp))
         temp_dim<-length(temp);
         if(temp_dim==0)
         {
@@ -48,7 +46,7 @@ LambdaValue<-function(time,history,sub_process,mu,alpha,beta)
                 {
 
                     #print(sub_process_before_time[[j]])    
-                    value[m,1]<-value[m,1]+alpha[m,j]*exp(-beta[m,j]*(time-sub_process_before_time[[j]][i,1]));
+                    value[m,1]=value[m,1]+alpha[m,j]*exp(-beta[m,j]*(time-sub_process_before_time[[j]][i,1]));
                 }
                     
             }
@@ -119,12 +117,9 @@ MultiHawkesSim<-function(mu,alpha,beta,T)
     {
         total_index<-total_index+1;
         sub_index[1,n0]<-sub_index[1,n0]+1;
-        #print(sub_process)
         total_intensity<-sum(LambdaValue(t[total_index-1,1],t,sub_process,mu,alpha,beta))+sum(alpha[,n0]);
 
         s<-s-log(runif(1))/total_intensity;
-        #print(s)
-        #CC
         if(s>T){break;}
 
         while(out_range==FALSE)
@@ -191,17 +186,17 @@ MultiHawkesPlot<-function(history,mu,alpha,beta)
     for(i in 1:length(time))
     {
         y<-rbind(y,c(LambdaValue(time[i],process,sub_process,mu,alpha,beta)));
-        print(time[i])
-        print(y[i+1,])
+        #print(time[i])
+        #print(y[i+1,])
     }
     #print(y)
     y=y[-1,]
     matplot(time,cbind(y[,1],y[,2]),type='l',xlab="Time",ylab="Intensity",lwd=2,cex.axis=1.5,cex.lab=1.5)
     legend("topleft",c("Dim 1","Dim 2"),lty=1:2,col=c(1,2))
 }
-T<-100
+T<-200
 mu<-array(c(0.2,0.2),dim=c(2,1));
 alpha<-array(c(0.2,0.7,0.4,0.4),dim=c(2,2));
 beta<-array(c(1,1,1,1),dim=c(2,2));
 x<-MultiHawkesSim(mu,alpha,beta,T);
-#MultiHawkesPlot(x,mu,alpha,beta);
+MultiHawkesPlot(x,mu,alpha,beta);
